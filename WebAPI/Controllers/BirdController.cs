@@ -11,19 +11,19 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FoodController : ControllerBase
+    public class BirdController : ControllerBase
     {
-        private readonly IFoodData _foodData;
+        private readonly IBirdData _birdData;
 
-        public FoodController(IFoodData foodData)
+        public BirdController(IBirdData birdData)
         {
-            _foodData = foodData;
+            _birdData = birdData;
         }
 
         [HttpGet]
-        public async Task<List<FoodModel>> Get()
+        public async Task<List<BirdModel>> Get()
         {
-            return await _foodData.GetFood();
+            return await _birdData.GetBirds();
         }
     }
 }

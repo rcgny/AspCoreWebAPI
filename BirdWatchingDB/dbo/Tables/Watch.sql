@@ -1,0 +1,8 @@
+﻿CREATE TABLE [dbo].[Watch]
+(
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
+	[Category] NVARCHAR(50) NULL, 
+    [BirdId] INT NOT NULL, 
+	[Location] NVARCHAR(50) NULL, 
+    [Map] NVARCHAR(50) NULL 
+)

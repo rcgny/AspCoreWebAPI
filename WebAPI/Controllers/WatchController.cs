@@ -12,28 +12,28 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrderController : ControllerBase
+    public class WatchController : ControllerBase
     {
-        private readonly IFoodData _foodData;
-        private readonly IOrderData _orderData;
+        private readonly IBirdData _birdData;
+        private readonly IWatchData _watchData;
 
-        public OrderController(IFoodData foodData, IOrderData orderData)
+        public WatchController(IBirdData birdData, IWatchData watchData)
         {
-            _foodData = foodData;
-            _orderData = orderData;
+            _birdData = birdData;
+            _watchData = watchData;
         }
 
         [HttpPost]
         [ValidateModel]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Post(OrderModel order)
+        public async Task<IActionResult> Post(WatchModel watch)
         {
-            var food = await _foodData.GetFood();
+            var birds = await _birdData.GetBirds();
 
-            order.Total = order.Quantity * food.Where(x => x.Id == order.FoodId).First().Price;
+            watch.Category = birds.Where(x => x.Id == watch.BirdId).First().Name;
 
-            int id = await _orderData.CreateOrder(order);
+            int id = await _watchData.CreateWatch(watch);
 
             return Ok(new { Id = id });
         }
@@ -49,16 +49,16 @@ namespace WebAPI.Controllers
                 return BadRequest();
             }
 
-            var order = await _orderData.GetOrderById(id);
+            var watch = await _watchData.GetWatchById(id);
 
-            if (order != null)
+            if (watch != null)
             {
-                var food = await _foodData.GetFood();
+                var birds = await _birdData.GetBirds();
 
                 var output = new
                 {
-                    Order = order,
-                    ItemPurchased = food.Where(x => x.Id == order.FoodId).FirstOrDefault()?.Title
+                    Watch = watch,
+                    Bird = birds.Where(x => x.Id == watch.BirdId).FirstOrDefault()?.Name
                 };
 
                 return Ok(output);
@@ -72,15 +72,15 @@ namespace WebAPI.Controllers
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Put([FromBody]OrderUpdateModel data)
+        public async Task<IActionResult> Put([FromBody]WatchUpdateModel data)
         {
             // OrderUpdateModel Id/OrderName needs to be filled out first by UI or other
             //rcgtemp - test
             //data.Id = 2002;
-            //data.OrderName = "bobby";
-            //await _orderData.UpdateOrderName(data.Id, data.OrderName);
+            //data.Location = "bird Feeder";
+           
 
-            await _orderData.UpdateOrderName(data.Id, data.OrderName);
+            await _watchData.UpdateLocation(data.Id, data.Location);
             return Ok();
         }
 
@@ -89,7 +89,7 @@ namespace WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Delete(int id)
         {
-            await _orderData.DeleteOrder(id);
+            await _watchData.DeleteWatch(id);
 
             return Ok();
         }

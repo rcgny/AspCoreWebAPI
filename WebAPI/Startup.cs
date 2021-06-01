@@ -35,8 +35,8 @@ namespace WebAPI
                 SqlConnectionName = "Default"
             });
             services.AddSingleton<IDataAccess, SqlDb>();
-            services.AddSingleton<IFoodData, FoodData>();
-            services.AddSingleton<IOrderData, OrderData>();
+            services.AddSingleton<IBirdData, BirdData>();
+            services.AddSingleton<IWatchData, WatchData>();
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowOrigin", builder => builder.AllowAnyOrigin()

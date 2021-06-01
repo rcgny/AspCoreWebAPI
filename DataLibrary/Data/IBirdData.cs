@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 
 namespace DataLibrary.Data
 {
-    public interface IFoodData
+    public interface IBirdData
     {
-        Task<List<FoodModel>> GetFood();
+        Task<List<BirdModel>> GetBirds();
     }
 }

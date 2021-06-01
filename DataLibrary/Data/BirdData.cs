@@ -7,20 +7,20 @@ using System.Threading.Tasks;
 
 namespace DataLibrary.Data
 {
-    public class FoodData : IFoodData
+    public class BirdData : IBirdData
     {
         private readonly IDataAccess _dataAccess;
         private readonly ConnectionStringData _connectionString;
 
-        public FoodData(IDataAccess dataAccess, ConnectionStringData connectionString)
+        public BirdData(IDataAccess dataAccess, ConnectionStringData connectionString)
         {
             _dataAccess = dataAccess;
             _connectionString = connectionString;
         }
 
-        public Task<List<FoodModel>> GetFood()
+        public Task<List<BirdModel>> GetBirds()
         {
-            return _dataAccess.LoadData<FoodModel, dynamic>("dbo.spFood_All",
+            return _dataAccess.LoadData<BirdModel, dynamic>("dbo.spBirds_GetAll",
                                                             new { },
                                                             _connectionString.SqlConnectionName);
         }
